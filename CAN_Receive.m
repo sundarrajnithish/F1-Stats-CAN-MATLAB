@@ -27,7 +27,7 @@ subplot(4,1,3);
 h3 = plot(nan, nan, 'r'); ylabel('Brake (%)'); title('Brake'); grid on;
 
 subplot(4,1,4);
-h4 = plot(nan, nan, 'k'); ylabel('RPM'); xlabel('Time (s)'); title('RPM'); grid on;
+h4 = plot(nan, nan, 'y'); ylabel('RPM'); xlabel('Time (s)'); title('RPM'); grid on;
 
 xlim_window = 30;  % seconds
 
