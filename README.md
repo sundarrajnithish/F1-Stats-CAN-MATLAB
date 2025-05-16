@@ -2,6 +2,9 @@
 
 This project simulates **Formula 1 car telemetry** data using [FastF1](https://github.com/theOehrly/Fast-F1), transmits it over a **virtual CAN bus**, and displays it in **real time** using MATLAB and Simulink.
 
+### Python CAN Transmission Console  
+![Python CAN Transmission](SS.png)
+
 ## 🚦 Features
 
 - Extract real F1 telemetry data from FastF1
