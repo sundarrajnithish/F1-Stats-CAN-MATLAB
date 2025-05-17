@@ -7,12 +7,12 @@ import time
 drivers = ['55', '1', '16', '63', '11', '23', '81', '44', '4', '14',
            '22', '40', '27', '77', '2', '24', '10', '31', '20', '18']
 
-# Create cache directory
+# Cache directory
 os.makedirs('f1_cache', exist_ok=True)
 fastf1.Cache.enable_cache('f1_cache')
 
 # Load F1 session
-session = fastf1.get_session(2023, 'Monza', 'Q')
+session = fastf1.get_session(2023, 'Canada', 'R')
 session.load()
 
 # Setup CAN bus on Virtual Channel 1

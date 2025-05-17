@@ -12,6 +12,15 @@ throttle_vals = [];
 brake_vals = [];
 rpm_vals = [];
 
+% For logging
+log_table = table( ...
+    datetime.empty(0,1), ...
+    double.empty(0,1), ...
+    double.empty(0,1), ...
+    double.empty(0,1), ...
+    double.empty(0,1), ...
+    'VariableNames', {'Timestamp', 'Speed', 'Throttle', 'Brake', 'RPM'});
+
 startTime = datetime('now');
 
 fig = figure('Name', 'Real-Time F1 Telemetry', 'NumberTitle', 'off');
@@ -41,16 +50,20 @@ while ishandle(fig) % Run until figure is closed
             throttle = double(data(2));
             brake = double(data(3));
             rpm = double(bitshift(data(5), 8) + data(6));
-            elapsed = seconds(datetime('now') - startTime);
+            timestamp = datetime('now');
+            elapsed = seconds(timestamp - startTime);
 
-            % Append data
+            % Append to arrays
             t(end+1) = elapsed;
             speed_vals(end+1) = speed;
             throttle_vals(end+1) = throttle;
             brake_vals(end+1) = brake;
             rpm_vals(end+1) = rpm;
 
-            % Filter data for plotting window
+            % Append to table for logging
+            log_table(end+1, :) = {timestamp, speed, throttle, brake, rpm};
+
+            % Filter for plotting
             idx = t > (elapsed - xlim_window);
             t_plot = t(idx);
 
@@ -64,7 +77,7 @@ while ishandle(fig) % Run until figure is closed
                 xlim([max(0, elapsed - xlim_window), elapsed]);
             end
 
-            drawnow; % Force plot update
+            drawnow;
 
             fprintf('Speed: %3d | Throttle: %3d | Brake: %3d | RPM: %5d\n', ...
                 speed, throttle, brake, rpm);
@@ -74,6 +87,12 @@ while ishandle(fig) % Run until figure is closed
     end
 end
 
+% Cleanup
 stop(ch);
 delete(ch);
 clear ch;
+
+% Save data to CSV
+log_filename = sprintf('telemetry_log_%s.csv', datestr(now, 'yyyymmdd_HHMMSS'));
+writetable(log_table, log_filename);
+disp(['Saved telemetry log to ', log_filename]);
