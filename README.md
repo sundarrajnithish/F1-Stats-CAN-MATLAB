@@ -1,7 +1,7 @@
 # 🏎️ F1 Telemetry Data Acquisition and Analysis System
 
-<div align="center">
-  <button id="lang-toggle" onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #333; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+<div id="language-toggle">
+  <button onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #333; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
     Switch to French / Passer au français
   </button>
 </div>
@@ -552,18 +552,18 @@ Ces aperçus continuent de guider mon approche de la conception de systèmes d'i
 
 <script>
 function toggleLanguage() {
-  var buttonText = document.getElementById("lang-toggle");
-  var englishContent = document.getElementById("content-en");
-  var frenchContent = document.getElementById("content-fr");
-  
-  if (englishContent.style.display === "none") {
-    englishContent.style.display = "block";
-    frenchContent.style.display = "none";
-    buttonText.innerHTML = "Switch to French / Passer au français";
+  var contentEn = document.getElementById("content-en");
+  var contentFr = document.getElementById("content-fr");
+  var button = document.getElementById("language-toggle").querySelector("button");
+
+  if (contentEn.style.display === "none") {
+    contentEn.style.display = "block";
+    contentFr.style.display = "none";
+    button.innerHTML = "Switch to French / Passer au français";
   } else {
-    englishContent.style.display = "none";
-    frenchContent.style.display = "block";
-    buttonText.innerHTML = "Switch to English / Passer à l'anglais";
+    contentEn.style.display = "none";
+    contentFr.style.display = "block";
+    button.innerHTML = "Switch to English / Passer à l'anglais";
   }
 }
 </script>
