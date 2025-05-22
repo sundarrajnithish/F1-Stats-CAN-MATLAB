@@ -5,7 +5,7 @@ driver_numbers = {'55', '1', '16', '63', '11', '23', '81', '44', '4', '14', ...
                   '22', '40', '27', '77', '2', '24', '10', '31', '20', '18'};
 
 % Setup CAN channel
-ch = canChannel('Vector', 'Virtual 1', 1);
+ch = canChannel('Vector', 'Virtual 1', 2);
 configBusSpeed(ch, 500000);
 start(ch);
 
