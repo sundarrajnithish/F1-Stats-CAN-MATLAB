@@ -1,26 +1,21 @@
 # 🏎️ F1 Telemetry Data Acquisition and Analysis System
 
-<div id="language-toggle">
-  <button onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #333; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
-    Switch to French / Passer au français
-  </button>
-</div>
+<details>
+  <summary>Toggle Language / Changer de langue</summary>
 
-<div id="content-en">
+---
+
+## English Version
 
 A comprehensive platform for capturing, transmitting, visualizing, and analyzing Formula 1 telemetry data using Python, CAN bus communication, and MATLAB. This project demonstrates how to:
-
 1. Extract real F1 telemetry data using FastF1 API
 2. Transmit data over CAN bus
 3. Visualize live telemetry data
 4. Log and analyze driver performance metrics
 
-## 🏆 System Overview
-
+### 🏆 System Overview
 This project creates a complete end-to-end pipeline for working with F1 telemetry data:
-
 ![Architecture](/images/0.1.png)
-
 - **Data Extraction**: Uses FastF1 Python API to access historical F1 race data
 - **CAN Transmission**: Sends telemetry data over Vector virtual CAN bus
 - **Real-time Visualization**: Multiple MATLAB scripts for live data display
@@ -30,18 +25,16 @@ This project creates a complete end-to-end pipeline for working with F1 telemetr
 ### Python CAN Transmission
 ![Python Code with CAN Transmission](/images/1.png)
 
-## 🛠️ System Components
+### 🛠️ System Components
 
-### 1. Data Transmission (`CAN_Send.py`)
-
+#### 1. Data Transmission (`CAN_Send.py`)
 The Python script extracts F1 telemetry from the 2023 Canadian Grand Prix and transmits it over CAN:
 - Fetches fastest lap telemetry for 20 F1 drivers
 - Packages telemetry data (speed, throttle, brake, gear, RPM) into CAN frames
 - Transmits data over a Vector virtual CAN interface at configurable rates
 - Includes error handling and progress tracking
 
-### 2. CAN Message Format (`f1.dbc`)
-
+#### 2. CAN Message Format (`f1.dbc`)
 Defines the CAN message structure for telemetry data:
 - Message ID: 291 (0x123 in the code)
 - Signal definitions:
@@ -51,41 +44,37 @@ Defines the CAN message structure for telemetry data:
   - Gear: 8-bit unsigned (0-15)
   - RPM: 16-bit unsigned (0-65535)
 
-### 3. CAN Explorer Visualization
+#### 3. CAN Explorer Visualization
 ![CAN Explorer Visualization](/images/2.png)
 
-### 4. MATLAB Data Reception (`CAN_Receive.m`)
-
+#### 4. MATLAB Data Reception (`CAN_Receive.m`)
 Basic telemetry receiver that:
 - Connects to Vector CAN channel
 - Decodes incoming CAN messages
 - Presents data in real-time multi-plot display
 - Logs all data to timestamped CSV files
 
-### 5. Performance Data Logger (`CAN_Receive_Performance.m`)
-
+#### 5. Performance Data Logger (`CAN_Receive_Performance.m`)
 Enhanced receiver with:
 - Automatic driver detection and separation
 - Individual data logging for each driver
 - Cleaner, more responsive visualization
 - Organized data storage for analysis
 
-### 6. MATLAB Real-time Visualization
+#### 6. MATLAB Real-time Visualization
 ![MATLAB Real-time Graphs](/images/3.png)
 
-### 7. Driver Analysis Tool (`CAN_Driver_Analysis.m`)
-
+#### 7. Driver Analysis Tool (`CAN_Driver_Analysis.m`)
 Powerful comparison tool that:
 - Loads any two driver telemetry logs
 - Normalizes data by distance for fair comparison
 - Generates side-by-side performance visualizations
 - Helps identify driving style differences
 
-### 8. Driver Performance Comparison
+#### 8. Driver Performance Comparison
 ![Driver Comparison Analysis](/images/4.png)
 
-### 9. Simulink Integration
-
+#### 9. Simulink Integration
 Includes Simulink models for:
 - Real-time data processing (`F1_Telemetry_Sim.slx`)
 - Advanced signal filtering and analysis
@@ -94,12 +83,10 @@ Includes Simulink models for:
 - Universal model with direct data simulation (`F1_Telemetry_Universal.slx`)
 
 For this project, I created two distinct Simulink approaches:
-
 1. **CAN-based Model** (`F1_Telemetry_Sim.slx`): Interfaces directly with Vector hardware for actual CAN bus communication. Ideal for situations where hardware is available and maximum realism is required.
-
 2. **Universal Model** (`F1_Telemetry_Universal.slx`): Completely self-contained simulation that requires no additional hardware or toolboxes. This was my solution to the compatibility challenges that emerged when sharing the project with others who had different MATLAB configurations.
 
-#### Universal Simulink Model
+##### Universal Simulink Model
 ![Universal Simulink Model](/images/5.png)
 
 The `F1_Telemetry_Universal` model represents a significant advancement in my approach to F1 telemetry visualization. During this project, I encountered numerous challenges with MATLAB version compatibility when implementing the CAN-based telemetry system. Many users were unable to run the original model due to specific Vector hardware dependencies and toolbox requirements that varied across MATLAB versions and licenses.
@@ -107,12 +94,12 @@ The `F1_Telemetry_Universal` model represents a significant advancement in my ap
 After spending weeks troubleshooting these compatibility issues, I developed this universal solution as a practical workaround that would function consistently across all environments. The key innovation was moving away from external hardware dependencies entirely.
 
 Rather than relying on external CAN bus communications which required specific hardware and toolboxes, this model simulates the telemetry data directly within Simulink using fundamental blocks available in all MATLAB installations. My approach offers several advantages:
-
 - **Universal Compatibility**: Works with any MATLAB version (from R2018b through R2023a tested) without requiring specialized toolboxes
 - **Zero Hardware Dependencies**: Eliminates the need for Vector CAN hardware or drivers that many users don't have access to
 - **Consistent Performance**: Delivers identical visualization experience across all systems, making it ideal for collaborative environments
 - **Simplified Deployment**: Single-file solution that works immediately without complicated setup procedures
 - **Realistic Data Patterns**: Despite being simulated, maintains the essential characteristics of actual F1 telemetry
+
 
 The model architecture is elegantly simple yet effective. At its core, I implemented a system of sine wave generators with carefully calibrated parameters (frequency, amplitude, bias, and phase) to produce realistic F1 telemetry signals for speed, throttle, brake, and RPM. These signals are mathematically designed to mimic actual race data patterns while maintaining clean, predictable outputs for reliable analysis.
 
@@ -276,9 +263,9 @@ These insights continue to guide my approach to engineering system design in my 
 
 **Note**: This project is intended for educational and demonstration purposes. Formula 1 data accessed via FastF1 is subject to Formula 1's terms and conditions.
 
-</div>
+</details>
 
-<div id="content-fr" style="display: none;">
+## French Version
 
 Une plateforme complète pour capturer, transmettre, visualiser et analyser les données de télémétrie de Formule 1 en utilisant Python, la communication par bus CAN et MATLAB. Ce projet démontre comment :
 
