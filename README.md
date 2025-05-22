@@ -534,23 +534,3 @@ Tout au long du développement de ce projet, j'ai acquis de précieux insights s
 Ces aperçus continuent de guider mon approche de la conception de systèmes d'ingénierie dans mon travail professionnel.
 
 **Remarque** : Ce projet est destiné à des fins éducatives et de démonstration. Les données de Formule 1 accessibles via FastF1 sont soumises aux conditions générales de la Formule 1.
-
-</div>
-
-<script>
-function toggleLanguage() {
-  var contentEn = document.getElementById("content-en");
-  var contentFr = document.getElementById("content-fr");
-  var button = document.getElementById("language-toggle").querySelector("button");
-
-  if (contentEn.style.display === "none") {
-    contentEn.style.display = "block";
-    contentFr.style.display = "none";
-    button.innerHTML = "Switch to French / Passer au français";
-  } else {
-    contentEn.style.display = "none";
-    contentFr.style.display = "block";
-    button.innerHTML = "Switch to English / Passer à l'anglais";
-  }
-}
-</script>
