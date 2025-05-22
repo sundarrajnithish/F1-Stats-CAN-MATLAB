@@ -1,0 +1,18 @@
+
+	Trial License -- for use to evaluate programs for possible purchase as an end-user only.
+
+Starting Connection Test...
+Testing CAN hardware connection...
+ERROR: Unable to perform operation because channel lacks initialization access.
+ 
+Possible causes:
+1. Vector CAN hardware not connected
+2. Vector drivers not installed
+3. Vector CANoe/CANalyzer not running with virtual channel
+4. Vector license issues
+ 
+Solutions:
+1. Make sure Vector hardware is connected
+2. Install Vector drivers from https://www.vector.com
+3. Start Vector CANoe/CANalyzer with virtual channel enabled
+4. Use F1_Telemetry_Standalone.m for testing without CAN hardware
