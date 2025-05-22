@@ -1,5 +1,13 @@
 # 🏎️ F1 Telemetry Data Acquisition and Analysis System
 
+<div align="center">
+  <button id="lang-toggle" onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #333; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+    Switch to French / Passer au français
+  </button>
+</div>
+
+<div id="content-en">
+
 A comprehensive platform for capturing, transmitting, visualizing, and analyzing Formula 1 telemetry data using Python, CAN bus communication, and MATLAB. This project demonstrates how to:
 
 1. Extract real F1 telemetry data using FastF1 API
@@ -267,3 +275,295 @@ Throughout the development of this project, I gained valuable insights about eng
 These insights continue to guide my approach to engineering system design in my professional work.
 
 **Note**: This project is intended for educational and demonstration purposes. Formula 1 data accessed via FastF1 is subject to Formula 1's terms and conditions.
+
+</div>
+
+<div id="content-fr" style="display: none;">
+
+Une plateforme complète pour capturer, transmettre, visualiser et analyser les données de télémétrie de Formule 1 en utilisant Python, la communication par bus CAN et MATLAB. Ce projet démontre comment :
+
+1. Extraire des données réelles de télémétrie F1 en utilisant l'API FastF1
+2. Transmettre des données via bus CAN
+3. Visualiser les données de télémétrie en temps réel
+4. Enregistrer et analyser les métriques de performance des pilotes
+
+## 🏆 Aperçu du Système
+
+Ce projet crée un pipeline complet de bout en bout pour travailler avec les données de télémétrie F1 :
+
+![Architecture](/images/0.1.png)
+
+- **Extraction de Données** : Utilise l'API Python FastF1 pour accéder aux données historiques des courses F1
+- **Transmission CAN** : Envoie des données de télémétrie via un bus CAN virtuel Vector
+- **Visualisation en Temps Réel** : Plusieurs scripts MATLAB pour l'affichage de données en direct
+- **Analyse de Performance** : Outils pour comparer la télémétrie de différents pilotes
+- **Enregistrement de Données** : Enregistre toutes les données reçues pour analyse post-session
+
+### Transmission CAN Python
+![Code Python avec Transmission CAN](/images/1.png)
+
+## 🛠️ Composants du Système
+
+### 1. Transmission de Données (`CAN_Send.py`)
+
+Le script Python extrait la télémétrie F1 du Grand Prix du Canada 2023 et la transmet via CAN :
+- Récupère la télémétrie du tour le plus rapide pour 20 pilotes F1
+- Emballe les données de télémétrie (vitesse, accélérateur, frein, vitesse, RPM) dans des trames CAN
+- Transmet les données via une interface CAN virtuelle Vector à des taux configurables
+- Comprend la gestion des erreurs et le suivi de la progression
+
+### 2. Format de Message CAN (`f1.dbc`)
+
+Définit la structure du message CAN pour les données de télémétrie :
+- ID de message : 291 (0x123 dans le code)
+- Définitions des signaux :
+  - Vitesse (km/h) : 8 bits non signé (0-255)
+  - Accélérateur (%) : 8 bits non signé (0-100)
+  - Frein (%) : 8 bits non signé (0-100)
+  - Vitesse : 8 bits non signé (0-15)
+  - RPM : 16 bits non signé (0-65535)
+
+### 3. Visualisation avec CAN Explorer
+![Visualisation CAN Explorer](/images/2.png)
+
+### 4. Réception de Données MATLAB (`CAN_Receive.m`)
+
+Récepteur de télémétrie de base qui :
+- Se connecte au canal CAN Vector
+- Décode les messages CAN entrants
+- Présente les données en temps réel dans un affichage multi-graphiques
+- Enregistre toutes les données dans des fichiers CSV horodatés
+
+### 5. Enregistreur de Données de Performance (`CAN_Receive_Performance.m`)
+
+Récepteur amélioré avec :
+- Détection et séparation automatique des pilotes
+- Enregistrement individuel des données pour chaque pilote
+- Visualisation plus propre et plus réactive
+- Stockage organisé des données pour analyse
+
+### 6. Visualisation en Temps Réel MATLAB
+![Graphiques MATLAB en Temps Réel](/images/3.png)
+
+### 7. Outil d'Analyse des Pilotes (`CAN_Driver_Analysis.m`)
+
+Puissant outil de comparaison qui :
+- Charge les journaux de télémétrie de n'importe quels deux pilotes
+- Normalise les données par distance pour une comparaison équitable
+- Génère des visualisations de performance côte à côte
+- Aide à identifier les différences de style de conduite
+
+### 8. Comparaison de Performance des Pilotes
+![Analyse Comparative des Pilotes](/images/4.png)
+
+### 9. Intégration Simulink
+
+Comprend des modèles Simulink pour :
+- Traitement de données en temps réel (`F1_Telemetry_Sim.slx`)
+- Filtrage et analyse avancés des signaux
+- Options de visualisation personnalisées
+- Capacités d'exportation de signaux
+- Modèle universel avec simulation directe des données (`F1_Telemetry_Universal.slx`)
+
+Pour ce projet, j'ai créé deux approches Simulink distinctes :
+
+1. **Modèle basé sur CAN** (`F1_Telemetry_Sim.slx`) : Interface directe avec le matériel Vector pour une communication réelle sur bus CAN. Idéal pour les situations où le matériel est disponible et où un réalisme maximal est requis.
+
+2. **Modèle Universel** (`F1_Telemetry_Universal.slx`) : Simulation entièrement autonome qui ne nécessite aucun matériel ou boîte à outils supplémentaire. Cette solution répond aux défis de compatibilité rencontrés lors du partage du projet avec d'autres utilisateurs ayant des configurations MATLAB différentes.
+
+#### Modèle Simulink Universel
+![Modèle Simulink Universel](/images/5.png)
+
+Le modèle `F1_Telemetry_Universal` représente une avancée significative dans mon approche de la visualisation de télémétrie F1. Durant ce projet, j'ai rencontré de nombreux défis de compatibilité avec les versions MATLAB lors de l'implémentation du système de télémétrie basé sur CAN. De nombreux utilisateurs ne pouvaient pas exécuter le modèle original en raison de dépendances matérielles Vector spécifiques et des exigences de boîtes à outils qui variaient selon les versions et licences MATLAB.
+
+Après des semaines de dépannage de ces problèmes de compatibilité, j'ai développé cette solution universelle comme un moyen pratique de fonctionner de manière cohérente dans tous les environnements. L'innovation clé consistait à s'éloigner complètement des dépendances matérielles externes.
+
+Plutôt que de s'appuyer sur des communications de bus CAN externes nécessitant du matériel et des boîtes à outils spécifiques, ce modèle simule les données de télémétrie directement dans Simulink en utilisant des blocs fondamentaux disponibles dans toutes les installations MATLAB. Mon approche offre plusieurs avantages :
+
+- **Compatibilité Universelle** : Fonctionne avec n'importe quelle version de MATLAB (de R2018b à R2023a testée) sans nécessiter de boîtes à outils spécialisées
+- **Zéro Dépendance Matérielle** : Élimine le besoin de matériel ou de pilotes Vector CAN auxquels de nombreux utilisateurs n'ont pas accès
+- **Performance Constante** : Offre une expérience de visualisation identique sur tous les systèmes, ce qui est idéal pour les environnements collaboratifs
+- **Déploiement Simplifié** : Solution en un seul fichier qui fonctionne immédiatement sans procédures de configuration complexes
+- **Motifs de Données Réalistes** : Bien que simulées, maintient les caractéristiques essentielles de la télémétrie F1 réelle
+
+L'architecture du modèle est élégamment simple mais efficace. À sa base, j'ai implémenté un système de générateurs d'ondes sinusoïdales avec des paramètres soigneusement calibrés (fréquence, amplitude, biais et phase) pour produire des signaux de télémétrie F1 réalistes pour la vitesse, l'accélérateur, le frein et le RPM. Ces signaux sont mathématiquement conçus pour imiter les modèles réels de données de course tout en maintenant des sorties propres et prévisibles pour une analyse fiable.
+
+Pour améliorer l'utilisation, j'ai ajouté un commutateur manuel qui permet de basculer facilement entre :
+1. **Mode de Données Simulées** : Utilisation des générateurs d'ondes sinusoïdales internes pour un fonctionnement complètement autonome
+2. **Mode de Données Externes** : Pour les utilisateurs qui ont accès au matériel nécessaire pour intégrer des données CAN réelles
+
+Les composants de visualisation comprennent des oscilloscopes personnalisés codés par couleur (bleu pour la vitesse, vert pour l'accélérateur, rouge pour le frein et magenta pour le RPM) avec une mise à l'échelle appropriée, des affichages numériques montrant les valeurs actuelles, et un enregistrement automatique des variables de l'espace de travail pour l'analyse post-simulation. Toutes les données sont synchronisées en utilisant une base de temps commune pour maintenir des relations appropriées entre les canaux de télémétrie.
+
+Pour ceux intéressés par l'implémentation technique, le modèle :
+- Utilise un solveur à pas fixe avec un pas de 0,1s pour une génération de données cohérente
+- Emploie des convertisseurs de signaux avec des étiquettes descriptives pour une meilleure lisibilité
+- Inclut l'enregistrement automatique des données dans les variables de l'espace de travail pour une analyse ultérieure
+- Présente des configurations d'oscilloscope soigneusement ajustées avec des limites d'axe Y appropriées pour chaque canal de télémétrie
+
+Les composants de visualisation incluent des oscilloscopes codés par couleur, des affichages numériques et un enregistrement automatique dans l'espace de travail, tous fonctionnant de manière identique à notre implémentation dépendante du matériel mais sans les maux de tête de compatibilité.
+
+Tout au long de mes tests sur plusieurs versions et environnements MATLAB, j'ai trouvé cette approche remarquablement robuste. Même avec des licences MATLAB limitées ou des versions plus anciennes, le modèle universel fonctionnait de manière constante. Cette adaptabilité s'est avérée particulièrement précieuse lors du travail avec des équipes ayant des configurations techniques variées et un accès différent au matériel.
+
+La philosophie de conception derrière ce modèle reflète mon engagement à créer des solutions d'ingénierie véritablement portables. Bien que l'approche basée sur CAN offre une excellente intégration dans le monde réel, le modèle universel démontre comment l'utilisation intelligente de blocs de construction fondamentaux peut surmonter les limitations pratiques sans sacrifier les fonctionnalités de base. Cet équilibre entre sophistication technique et utilisabilité pratique est quelque chose que je m'efforce d'atteindre dans tous mes projets d'ingénierie.
+
+## 📋 Prérequis
+
+### Python
+- Python 3.9+
+- `fastf1` : Pour l'accès aux données de télémétrie F1
+- `python-can` : Pour la communication par bus CAN
+
+Installation avec :
+```bash
+pip install fastf1 python-can
+```
+
+### MATLAB
+Pour l'implémentation basée sur CAN :
+- MATLAB R2021a ou plus récent recommandé pour une fonctionnalité complète
+- Vehicle Network Toolbox (requis pour la communication CAN)
+- Simulink (requis pour les modèles de visualisation)
+- Pilotes CAN Vector (pour l'interface matérielle)
+
+Pour le modèle Universel :
+- **N'importe quelle version de MATLAB avec Simulink de base** (testé sur les versions de R2018b à R2023a)
+- **Aucune boîte à outils supplémentaire requise**
+- **Aucune dépendance matérielle**
+- **Aucun pilote spécialisé nécessaire**
+
+### Matériel/Logiciel (implémentation basée sur CAN uniquement)
+- Interface CAN Vector (matérielle ou virtuelle)
+- Vector CANalyzer (pour la visualisation CAN Explorer)
+
+Cette double approche reflète un principe d'ingénierie important : toujours concevoir en tenant compte des contraintes de déploiement. Le modèle universel est né des retours d'utilisateurs qui ne pouvaient pas exécuter mon implémentation originale en raison de limitations de licence ou de matériel. Plutôt que d'exiger des investissements matériels spécifiques, j'ai développé une solution qui préservait les fonctionnalités de base tout en supprimant les barrières pratiques à l'adoption.
+
+## 🚀 Démarrage
+
+### Option 1 : Approche Universelle (Recommandée pour la plupart des utilisateurs)
+
+1. Clonez ce dépôt
+```
+git clone https://github.com/yourusername/F1-Stats-CAN-MATLAB.git
+cd F1-Stats-CAN-MATLAB
+```
+
+2. Dans MATLAB, exécutez le script générateur de modèle Universel :
+```matlab
+>> F1_Telemetry_Universal    % Crée et ouvre un modèle Simulink compatible
+```
+
+3. Exécutez la simulation en cliquant sur le bouton "Run" dans Simulink
+   - Les données seront automatiquement enregistrées dans votre espace de travail
+   - La visualisation en direct s'affichera dans les oscilloscopes du modèle
+
+### Option 2 : Implémentation basée sur CAN (Pour les utilisateurs disposant de matériel Vector)
+
+1. Clonez ce dépôt comme ci-dessus
+
+2. Configurez un canal CAN virtuel Vector (ou configurez le matériel CAN)
+
+3. Exécutez le script d'envoi Python
+```
+python CAN_Send.py
+```
+
+4. Dans MATLAB, ouvrez et exécutez l'un des scripts de réception :
+```matlab
+>> CAN_Receive            % Pour la visualisation de base
+>> CAN_Receive_Performance % Pour l'enregistrement multi-pilotes
+```
+
+5. Pour la comparaison des pilotes après la collecte de données :
+```matlab
+>> CAN_Driver_Analysis    % Outil interactif de comparaison des pilotes
+```
+
+Dans mes tests, j'ai constaté que l'approche Universelle était suffisante pour la plupart des usages généraux, tandis que l'implémentation basée sur CAN offrait une expérience plus authentique pour ceux spécifiquement intéressés par les protocoles de communication automobile et l'intégration matérielle.
+
+## 📊 Flux de Traitement des Données
+
+1. **Acquisition de Données** : Python extrait la télémétrie de FastF1
+2. **Transmission CAN** : Les données sont encodées dans des trames CAN et envoyées
+3. **Affichage en Temps Réel** : MATLAB reçoit et visualise les données en direct
+4. **Enregistrement de Données** : La télémétrie est enregistrée dans des fichiers CSV par pilote
+5. **Analyse** : Les métriques de performance sont comparées entre les pilotes
+
+## 🔍 Signaux de Télémétrie
+
+Les signaux suivants sont capturés et analysés :
+
+- **Vitesse** (km/h) : Vitesse du véhicule de 0 à 255 km/h
+- **Accélérateur** (%) : Position de la pédale d'accélérateur (0-100%)
+- **Frein** (%) : Pression de la pédale de frein (0-100%)
+- **Vitesse** : Sélection de vitesse actuelle (0-15)
+- **RPM** : Régime moteur en tours par minute
+
+## 📈 Cas d'Utilisation
+
+- Comparer les styles de conduite entre les pilotes F1
+- Analyser les techniques d'application de l'accélérateur et du frein
+- Étudier les stratégies d'entrée et de sortie de virage
+- Outil éducatif pour l'ingénierie du sport automobile
+- Démonstration des systèmes d'acquisition de données en temps réel
+
+## 🔧 Fonctionnalités Avancées
+
+### Personnalisation du Modèle Universel
+- Modifier les paramètres d'onde sinusoïdale dans `F1_Telemetry_Universal.m` pour modifier les caractéristiques du signal
+- Étendre le modèle avec des variables supplémentaires (comme la vitesse, la force G latérale, etc.)
+- Personnaliser les configurations d'oscilloscope pour différents besoins de visualisation
+- Ajouter des blocs de traitement de signal pour le filtrage ou l'analyse des données
+- Intégrer avec des outils de visualisation externes via des blocs To Workspace
+
+### Extensions d'Implémentation CAN
+- Modifier `f1.dbc` pour ajouter des signaux personnalisés
+- Ajuster les taux d'échantillonnage dans `CAN_Send.py`
+- Créer des visualisations MATLAB personnalisées
+- Étendre le modèle Simulink pour un traitement avancé des signaux
+- Implémenter l'apprentissage automatique pour la reconnaissance des modèles de conduite
+
+Une extension intéressante que j'ai explorée était la création d'une approche hybride qui permettait au modèle Universel d'enregistrer des données simulées au format CAN, permettant la compatibilité avec les outils d'analyse conçus pour l'approche basée sur le matériel. Cela a permis des flux de travail d'analyse cohérents quelle que soit la source des données.
+
+## 📞 Contact
+
+Pour des questions ou des suggestions concernant ce projet, veuillez ouvrir une issue ou contacter le propriétaire du dépôt.
+
+---
+
+## 🔑 Aperçus Techniques
+
+Tout au long du développement de ce projet, j'ai acquis de précieux insights sur la conception de systèmes d'ingénierie qui s'étendent bien au-delà de la simple implémentation technique :
+
+1. **Accessibilité vs. Authenticité** : La tension entre la création d'un système authentique (bus CAN) et sa large accessibilité (modèle Universel) a démontré l'importance de considérer les contraintes diverses des utilisateurs dès le début du processus de conception.
+
+2. **Dégradation Gracieuse** : Le modèle universel montre comment les systèmes peuvent être conçus pour fournir des fonctionnalités de base même sans composants spécialisés. Ce principe de dégradation gracieuse est essentiel dans les systèmes d'ingénierie robustes.
+
+3. **Tests Cross-Environment** : La validation du système à travers différentes versions MATLAB a révélé des problèmes de compatibilité subtils qui n'étaient pas apparents dans l'environnement de développement initial, soulignant l'importance des stratégies de test complètes.
+
+4. **Documentation Axée sur l'Utilisateur** : La création d'une documentation qui sert à la fois les experts techniques (qui veulent utiliser l'implémentation CAN) et les novices (qui ont juste besoin d'une visualisation fonctionnelle) a nécessité une organisation soigneuse de l'information.
+
+5. **Fidélité de Simulation** : La conception d'une simulation qui capturait les caractéristiques essentielles des données de télémétrie réelles sans réplication exacte a aidé à identifier quels aspects d'un signal sont vraiment pertinents pour le cas d'utilisation prévu.
+
+Ces aperçus continuent de guider mon approche de la conception de systèmes d'ingénierie dans mon travail professionnel.
+
+**Remarque** : Ce projet est destiné à des fins éducatives et de démonstration. Les données de Formule 1 accessibles via FastF1 sont soumises aux conditions générales de la Formule 1.
+
+</div>
+
+<script>
+function toggleLanguage() {
+  var buttonText = document.getElementById("lang-toggle");
+  var englishContent = document.getElementById("content-en");
+  var frenchContent = document.getElementById("content-fr");
+  
+  if (englishContent.style.display === "none") {
+    englishContent.style.display = "block";
+    frenchContent.style.display = "none";
+    buttonText.innerHTML = "Switch to French / Passer au français";
+  } else {
+    englishContent.style.display = "none";
+    frenchContent.style.display = "block";
+    buttonText.innerHTML = "Switch to English / Passer à l'anglais";
+  }
+}
+</script>
