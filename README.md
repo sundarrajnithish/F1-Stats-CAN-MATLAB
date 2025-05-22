@@ -85,24 +85,24 @@ Includes Simulink models for:
 - Signal export capabilities
 - Universal model with direct data simulation (`F1_Telemetry_Universal.slx`)
 
-During my final semester project, I created two distinct Simulink approaches:
+For this project, I created two distinct Simulink approaches:
 
 1. **CAN-based Model** (`F1_Telemetry_Sim.slx`): Interfaces directly with Vector hardware for actual CAN bus communication. Ideal for situations where hardware is available and maximum realism is required.
 
-2. **Universal Model** (`F1_Telemetry_Universal.slx`): Completely self-contained simulation that requires no additional hardware or toolboxes. This was my solution to the compatibility challenges that emerged when sharing the project with classmates who had different MATLAB configurations.
+2. **Universal Model** (`F1_Telemetry_Universal.slx`): Completely self-contained simulation that requires no additional hardware or toolboxes. This was my solution to the compatibility challenges that emerged when sharing the project with others who had different MATLAB configurations.
 
 #### Universal Simulink Model
 ![Universal Simulink Model](/images/5.png)
 
-The `F1_Telemetry_Universal` model represents a significant advancement in my approach to F1 telemetry visualization. During my master's thesis work, I encountered numerous challenges with MATLAB version compatibility when implementing the CAN-based telemetry system. Many of my peers were unable to run the original model due to specific Vector hardware dependencies and toolbox requirements that varied across MATLAB versions and academic licenses.
+The `F1_Telemetry_Universal` model represents a significant advancement in my approach to F1 telemetry visualization. During this project, I encountered numerous challenges with MATLAB version compatibility when implementing the CAN-based telemetry system. Many users were unable to run the original model due to specific Vector hardware dependencies and toolbox requirements that varied across MATLAB versions and licenses.
 
 After spending weeks troubleshooting these compatibility issues, I developed this universal solution as a practical workaround that would function consistently across all environments. The key innovation was moving away from external hardware dependencies entirely.
 
 Rather than relying on external CAN bus communications which required specific hardware and toolboxes, this model simulates the telemetry data directly within Simulink using fundamental blocks available in all MATLAB installations. My approach offers several advantages:
 
 - **Universal Compatibility**: Works with any MATLAB version (from R2018b through R2023a tested) without requiring specialized toolboxes
-- **Zero Hardware Dependencies**: Eliminates the need for Vector CAN hardware or drivers that many students don't have access to
-- **Consistent Performance**: Delivers identical visualization experience across all systems, making it ideal for teaching environments
+- **Zero Hardware Dependencies**: Eliminates the need for Vector CAN hardware or drivers that many users don't have access to
+- **Consistent Performance**: Delivers identical visualization experience across all systems, making it ideal for collaborative environments
 - **Simplified Deployment**: Single-file solution that works immediately without complicated setup procedures
 - **Realistic Data Patterns**: Despite being simulated, maintains the essential characteristics of actual F1 telemetry
 
@@ -122,9 +122,9 @@ For those interested in the technical implementation, the model:
 
 The visualization components include color-coded scopes, numeric displays, and automatic workspace logging—all functioning identically to our hardware-dependent implementation but without the compatibility headaches.
 
-Throughout my testing across multiple MATLAB versions in our university lab, I found this approach to be remarkably robust. Even when students had limited MATLAB licenses or older versions installed on their laptops, the universal model performed consistently. This adaptability proved especially valuable during remote learning periods when access to university hardware was limited.
+Throughout my testing across multiple MATLAB versions and environments, I found this approach to be remarkably robust. Even with limited MATLAB licenses or older versions, the universal model performed consistently. This adaptability proved especially valuable when working with teams that had varying technical setups and access to hardware.
 
-The design philosophy behind this model reflects what I learned during my master's program about creating truly portable engineering solutions. While the CAN-based approach offers excellent real-world integration, the universal model demonstrates how clever use of fundamental building blocks can overcome practical limitations without sacrificing core functionality. This balance between theoretical correctness and practical usability is something I strived to achieve throughout my academic projects.
+The design philosophy behind this model reflects my commitment to creating truly portable engineering solutions. While the CAN-based approach offers excellent real-world integration, the universal model demonstrates how clever use of fundamental building blocks can overcome practical limitations without sacrificing core functionality. This balance between technical sophistication and practical usability is something I strive to achieve in all my engineering projects.
 
 ## 📋 Requirements
 
@@ -155,7 +155,7 @@ For Universal model:
 - Vector CAN interface (hardware or virtual)
 - Vector CANalyzer (for CAN Explorer visualization)
 
-This dual approach reflects an important lesson from my master's program: always design with deployment constraints in mind. The universal model emerged from conversations with peers who couldn't run my original implementation due to licensing or hardware limitations. Rather than requiring everyone to acquire specific hardware, I developed a solution that preserved the educational value while removing practical barriers to adoption.
+This dual approach reflects an important engineering principle: always design with deployment constraints in mind. The universal model emerged from feedback from users who couldn't run my original implementation due to licensing or hardware limitations. Rather than requiring specific hardware investments, I developed a solution that preserved the core functionality while removing practical barriers to adoption.
 
 ## 🚀 Getting Started
 
@@ -198,7 +198,7 @@ python CAN_Send.py
 >> CAN_Driver_Analysis    % Interactive driver comparison tool
 ```
 
-During my thesis testing, I found that the Universal approach was sufficient for most educational purposes, while the CAN-based implementation offered a more authentic experience for those specifically interested in automotive communication protocols.
+In my testing, I found that the Universal approach was sufficient for most general purposes, while the CAN-based implementation offered a more authentic experience for those specifically interested in automotive communication protocols and hardware integration.
 
 ## 📊 Data Processing Workflow
 
@@ -242,7 +242,7 @@ The following signals are captured and analyzed:
 - Extend Simulink model for advanced signal processing
 - Implement machine learning for driving pattern recognition
 
-One interesting extension I explored during my thesis was creating a hybrid approach that allowed the Universal model to record simulated data to CAN format files, enabling compatibility with the analysis tools designed for the hardware-based approach. This allowed for consistent analysis workflows regardless of data source.
+One interesting extension I explored was creating a hybrid approach that allowed the Universal model to record simulated data to CAN format files, enabling compatibility with the analysis tools designed for the hardware-based approach. This allowed for consistent analysis workflows regardless of data source.
 
 ## 📞 Contact
 
@@ -250,20 +250,20 @@ For questions or suggestions about this project, please open an issue or contact
 
 ---
 
-## 🎓 Technical Lessons Learned
+## 🔑 Technical Insights
 
-Throughout the development of this project for my master's thesis, I gained valuable insights about engineering system design that extend well beyond just the technical implementation:
+Throughout the development of this project, I gained valuable insights about engineering system design that extend well beyond just the technical implementation:
 
-1. **Accessibility vs. Authenticity**: The tension between creating an authentic system (CAN bus) and making it widely accessible (Universal model) taught me to consider diverse user constraints early in the design process.
+1. **Accessibility vs. Authenticity**: The tension between creating an authentic system (CAN bus) and making it widely accessible (Universal model) demonstrated the importance of considering diverse user constraints early in the design process.
 
-2. **Graceful Degradation**: The universal model demonstrates how systems can be designed to provide core functionality even without specialized components. This principle of graceful degradation is critical in robust engineering systems.
+2. **Graceful Degradation**: The universal model showcases how systems can be designed to provide core functionality even without specialized components. This principle of graceful degradation is critical in robust engineering systems.
 
-3. **Testing Across Environments**: Validating the system across different MATLAB versions revealed subtle compatibility issues that weren't apparent in the development environment, highlighting the importance of broad testing strategies.
+3. **Cross-Environment Testing**: Validating the system across different MATLAB versions revealed subtle compatibility issues that weren't apparent in the initial development environment, highlighting the importance of comprehensive testing strategies.
 
-4. **Documentation for Different Users**: Creating documentation that serves both technical experts (who want to use the CAN implementation) and novices (who just need a working visualization) required careful organization of information.
+4. **User-Focused Documentation**: Creating documentation that serves both technical experts (who want to use the CAN implementation) and novices (who just need a working visualization) required careful organization of information.
 
-5. **Simulation Fidelity**: Designing a simulation that captured the essential characteristics of real telemetry data without exact replication taught me to identify which aspects of a signal are truly relevant for the intended use case.
+5. **Simulation Fidelity**: Designing a simulation that captured the essential characteristics of real telemetry data without exact replication helped identify which aspects of a signal are truly relevant for the intended use case.
 
-These lessons significantly influenced my approach to system design and will continue to guide my professional work in engineering.
+These insights continue to guide my approach to engineering system design in my professional work.
 
 **Note**: This project is intended for educational and demonstration purposes. Formula 1 data accessed via FastF1 is subject to Formula 1's terms and conditions.
